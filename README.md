@@ -1,5 +1,9 @@
 # it-arihtekture
 
+1. Clone the repository
+2. Run `docker-compose up` in the root directory
+3. The users microservice will be available on port 8080 with swagger documentation at  http://localhost:8080/swagger-ui.html
+
 ## Frontend
 
 ## Backend
