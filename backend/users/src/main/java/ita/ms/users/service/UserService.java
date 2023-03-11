@@ -45,7 +45,6 @@ public class UserService {
         } catch (Exception e) {
             throw e;
         }
-
     }
 
     public List<User> getAll() {
