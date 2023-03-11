@@ -5,7 +5,6 @@ import ita.ms.users.model.RegisterDto;
 import ita.ms.users.model.User;
 import ita.ms.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
