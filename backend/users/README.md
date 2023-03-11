@@ -1,5 +1,9 @@
 # User Service
 
+When the service is running, you can access the API documentation at
+http://localhost:8080/swagger-ui.html and at http://localhost:8080/v3/api-docs
+
+
 <img src="userservice.png" width='100%'>
 
 ## Funkcionalne zahteve

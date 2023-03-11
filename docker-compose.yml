@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    build: ./backend/usersdb
+    ports:
+      - "5432:5432"
+    environment:
+        POSTGRES_USER: postgres
+
+  users:
+    build: ./backend/users
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
