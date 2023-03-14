@@ -23,7 +23,7 @@ jobs:
           maven-version: 3.8.1
 
       - name: Build and test
-        run: mvn clean install
+        run: mvn clean install --file ./backend/users/pom.xml
           
 #      - name: Setup PostgreSQL
 #        # You may pin to the exact commit or the version.
