@@ -36,7 +36,7 @@ jobs:
         verbose: true
 
     - name: Archive code coverage results
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: code-coverage-report
         path: ./backend/users/target/site/jacoco
