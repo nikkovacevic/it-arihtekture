@@ -13,3 +13,17 @@ services:
       - "8080:8080"
     depends_on:
       - db
+
+  propertiesdb:
+    build: ./backend/propertiesdb
+    ports:
+      - "5433:5433"
+    environment:
+        POSTGRES_USER: postgres
+
+  properties:
+    build: ./backend/properties
+    ports:
+      - "8081:8081"
+    depends_on:
+      - propertiesdb
