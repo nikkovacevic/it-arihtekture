@@ -4,7 +4,8 @@ import ita.ms.properties.dto.RequestDto;
 import ita.ms.properties.dto.ResponseDto;
 import ita.ms.properties.service.PropertyService;
 import ita.ms.properties.model.Property;
-import org.springframework.boot.web.server.WebServerException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequestMapping("api/properties")
 public class PropertyController {
 
+    private static final Logger logger = LogManager.getLogger(PropertyController.class);
     private final PropertyService propertyService;
 
     public PropertyController(PropertyService propertyService) {this.propertyService = propertyService;}
@@ -26,6 +28,7 @@ public class PropertyController {
     @ResponseBody
     public ResponseDto getAll(@RequestBody RequestDto requestDto) {
         try {
+            logger.info("Getting all properties...");
             Page<Property> all = propertyService.getAll(
                     requestDto.getPageNumber(),
                     requestDto.getPageSize()
@@ -36,7 +39,8 @@ public class PropertyController {
                     all.getContent().stream().collect(Collectors.toList())
             );
         } catch (Exception e) {
-            throw new WebServerException(e.getMessage(), e);
+            logger.error("Error getting all properties...");
+            throw e;
         }
     }
 }
