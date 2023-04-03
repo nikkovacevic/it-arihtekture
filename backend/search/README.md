@@ -1,5 +1,8 @@
 # Search Service
 
+When the application is running, you can access the Swagger UI at
+http://localhost:8082/q/swagger-ui/
+
 <img src="searchservice.png" width='100%'>
 
 ## Funkcionalne zahteve
