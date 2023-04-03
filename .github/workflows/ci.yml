@@ -28,11 +28,25 @@ jobs:
         java-version: 17
         distribution: 'temurin'
 
-    - name: Build and test
+    - name: Build and test users
       run: mvn clean install --file ./backend/users/pom.xml
     - uses: codecov/codecov-action@v3
       with:
         directory: ./backend/users/target/site/jacoco
+        verbose: true
+
+    - name: Build and test properties
+      run: mvn clean install --file ./backend/properties/pom.xml
+    - uses: codecov/codecov-action@v3
+      with:
+        directory: ./backend/properties/target/site/jacoco
+        verbose: true
+
+    - name: Build and test search
+      run: mvn clean install --file ./backend/search/pom.xml
+    - uses: codecov/codecov-action@v3
+      with:
+        directory: ./backend/search/target/site/jacoco
         verbose: true
 
     - name: Archive code coverage results
