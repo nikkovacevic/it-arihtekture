@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ita.ms;
+
+message Property {
+  string title = 1;
+  string location = 2;
+  string link = 3;
+  string price = 4;
+  string image = 5;
+}
+
+message PropertyList {
+  repeated Property properties = 1;
+}
+
+service PropertyService {
+  rpc getAll (PropertyList) returns (PropertyList) {}
+}
