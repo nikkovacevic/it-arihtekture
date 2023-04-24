@@ -43,4 +43,9 @@ public class PropertyController {
             throw e;
         }
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }
