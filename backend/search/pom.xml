@@ -77,19 +77,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-undertow</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-grpc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>3.22.2</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -146,26 +133,8 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.xolstice.maven.plugins</groupId>
-        <artifactId>protobuf-maven-plugin</artifactId>
-        <version>0.6.1</version>
-        <configuration>
-          <protocVersion>3.17.3</protocVersion>
-<!--          <protocExecutable>/home/Users/Nik/Downloads/protoc-3.12.4-win64/bin</protocExecutable>-->
-          <pluginId>grpc-java</pluginId> <!-- Specify the gRPC plugin -->
-          <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>compile-custom</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
+    <finalName>SearchMS</finalName>
   </build>
   <profiles>
     <profile>

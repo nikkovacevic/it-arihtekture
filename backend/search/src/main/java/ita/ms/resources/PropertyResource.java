@@ -77,4 +77,11 @@ public class PropertyResource {
         }
     }
 
+    @GET
+    @Path("/test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String test() {
+        return "Hello from properties";
+    }
+
 }

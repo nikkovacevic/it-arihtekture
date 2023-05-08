@@ -1,29 +1,53 @@
 version: "3.9"
 services:
   db:
-    build: ./backend/usersdb
+    build: ./backend/db
     ports:
       - "5432:5432"
+    networks:
+      - ita
     environment:
         POSTGRES_USER: postgres
 
-  users:
+  users-ms:
     build: ./backend/users
     ports:
       - "8080:8080"
+    networks:
+      - ita
     depends_on:
       - db
 
-  propertiesdb:
-    build: ./backend/propertiesdb
-    ports:
-      - "5433:5432"
-    environment:
-        POSTGRES_USER: postgres
-
-  properties:
+  properties-ms:
     build: ./backend/properties
     ports:
       - "8081:8081"
+    networks:
+      - ita
     depends_on:
-      - propertiesdb
+      - db
+
+  gateway-ms:
+    build: ./backend/gateway
+    ports:
+      - "5000:5000"
+    networks:
+      - ita
+    depends_on:
+      - db
+      - users-ms
+      - properties-ms
+
+#  search:
+#    build:
+#      context: ./backend/search
+#      dockerfile: ./backend/search/src/main/docker/Dockerfile.native
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - db
+
+networks:
+  ita:
+    name: ita
+    driver: bridge
