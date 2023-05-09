@@ -8,8 +8,14 @@ services:
       - ita
     environment:
         POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
-  users-ms:
+
+  users:
     build: ./backend/users
     ports:
       - "8080:8080"
@@ -17,8 +23,13 @@ services:
       - ita
     depends_on:
       - db
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/api/users/test" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  properties-ms:
+  properties:
     build: ./backend/properties
     ports:
       - "8081:8081"
@@ -27,7 +38,18 @@ services:
     depends_on:
       - db
 
-  gateway-ms:
+  search:
+    image: searchms:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - ita
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  gateway:
     build: ./backend/gateway
     ports:
       - "5000:5000"
@@ -35,17 +57,9 @@ services:
       - ita
     depends_on:
       - db
-      - users-ms
-      - properties-ms
-
-#  search:
-#    build:
-#      context: ./backend/search
-#      dockerfile: ./backend/search/src/main/docker/Dockerfile.native
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - db
+      - users
+      - properties
+      - search
 
 networks:
   ita:

@@ -7,12 +7,14 @@ import ita.ms.properties.model.Property;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.stream.Collectors;
 
@@ -48,5 +50,17 @@ public class PropertyController {
     @GetMapping("/test")
     public String test() {
         return "test";
+    }
+
+    @GetMapping("/test2")
+    public String test2() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://users:8080/api/users/test";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        System.out.println("response prosim");
+        System.out.println(response.getStatusCode());
+        String data = response.getBody();
+        System.out.println(data);
+        return data;
     }
 }

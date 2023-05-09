@@ -134,7 +134,7 @@
         </executions>
       </plugin>
     </plugins>
-    <finalName>SearchMS</finalName>
+    <finalName>searchMS</finalName>
   </build>
   <profiles>
     <profile>
