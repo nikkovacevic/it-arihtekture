@@ -1,6 +1,6 @@
 \c postgres;
 
-DROP DATABASE ita;
+DROP DATABASE IF EXISTS ita;
 
 CREATE DATABASE ita;
 
