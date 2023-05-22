@@ -38,15 +38,15 @@ services:
     depends_on:
       - db
 
-  search:
-    image: searchms:latest
-    ports:
-      - "8082:8082"
-    networks:
-      - ita
-    depends_on:
-      db:
-        condition: service_healthy
+#  search:
+#    image: searchms:latest
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - ita
+#    depends_on:
+#      db:
+#        condition: service_healthy
 
 
   gateway:
@@ -59,9 +59,12 @@ services:
       - db
       - users
       - properties
-      - search
+#      - search
 
 networks:
   ita:
     name: ita
     driver: bridge
+
+# gateway ne posreduje response body-a
+# search se hoce povezat na db preden se db sploh vzpostavi

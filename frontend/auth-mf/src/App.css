@@ -11,7 +11,7 @@
   background-color: #535bf2;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   width: 100vw;
   padding: 24px;
 }
@@ -27,6 +27,12 @@
   align-items: center;
   font-size: medium;
   font-weight: 500;
+}
+
+.inputs {
+  display: flex;
+  gap: 8px;
+  margin-right: 16px;
 }
 
 .navbar-odjava {

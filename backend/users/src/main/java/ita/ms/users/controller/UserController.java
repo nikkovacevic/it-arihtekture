@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +53,7 @@ public class UserController {
 
     @PostMapping("/authenticate")
     @ResponseBody
-    public boolean authenticateUser(LoginDto dto) {
+    public boolean authenticateUser(@RequestBody LoginDto dto) {
         try {
             logger.info("Authenticating user " + dto.getEmail());
             return userService.authenticateUser(dto);

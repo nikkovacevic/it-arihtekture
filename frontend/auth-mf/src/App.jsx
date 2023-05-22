@@ -1,37 +1,40 @@
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa'
 import './App.css'
+import { TextField } from '@mui/material';
+import axios from 'axios';
 
 function App() {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(
-        !!localStorage.getItem('token')
-    );
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        // Update the state whenever the token is updated in localStorage
-        window.addEventListener('storage', handleStorageChange);
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
-        return () => {
-            // Clean up the event listener when the component unmounts
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, []);
+    const handleLogin = async () => {
 
-    const handleStorageChange = (event) => {
-        if (event.key === 'token') {
-            setIsLoggedIn(!!event.newValue);
+        let loginDto = {
+            email: username,
+            password: password
         }
-    };
 
-    const handleLogin = () => {
-        //open modal / show fields
-        //call endpoint
-        //set true to localstorage
+        const response = await axios.post('http://localhost:8085/api/users/authenticate', loginDto)
+
+        console.log(response)
+
+
+        if (!response.data) {
+            setUsername('')
+            setPassword('')
+        }
+
+        setIsLoggedIn(response.data)
+        setUsername('')
+        setPassword('')
     }
 
     const handleLogout = () => {
-        //clear false from localstorage
+       setIsLoggedIn(false)
     }
 
   return (
@@ -50,19 +53,44 @@ function App() {
                         <FaUserCircle/>
                     </div>
                 ) : (
-                    <div className="navbar-right" onClick={handleLogin}>
-                        <p className="navbar-odjava">
+                    <div className="navbar-right">
+                        <div className="inputs">
+                            { isLoggedIn ? (<></>) : (
+                                <>
+                                    <div>
+                                        <TextField
+                                            className="text"
+                                            size="small"
+                                            value={username}
+                                            onChange={(e) => {
+                                                setUsername(e.target.value)
+                                            }}
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextField
+                                            className="text"
+                                            size="small"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => {
+                                                setPassword(e.target.value)
+                                            }}
+                                        />
+                                    </div>
+                                </>
+
+                            )}
+
+                        </div>
+                        <p className="navbar-odjava" onClick={handleLogin}>
                             Login
                         </p>
                         <FaUserCircle/>
                     </div>
                 )
             }
-
-
-
         </div>
-
     </>
   )
 }
