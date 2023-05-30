@@ -1,6 +1,7 @@
 package ita.ms.resources;
 
 import ita.ms.model.Property;
+import ita.ms.utils.JwtUtilService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
@@ -11,7 +12,9 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -39,21 +42,30 @@ public class PropertyResource {
     @Inject
     EntityManager entityManager;
 
+    @Inject
+    JwtUtilService jwtUtilService;
+
     @GET
     @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<Property> searchProperty(@QueryParam("query") String query) {
+    public List<Property> searchProperty(@QueryParam("query") String query, @HeaderParam("Authorization") String token) {
         try {
-            List<Property> resultList = entityManager
-                    .createQuery("SELECT p FROM Property p WHERE lower(p.location) LIKE :query", Property.class)
-                    .setParameter("query", "%" + query.toLowerCase() + "%")
-                    .getResultList();
-            if (resultList.isEmpty()) {
-                throw new NotFoundException("No properties found for query: " + query);
+            if (JwtUtilService.validateToken(token)) {
+                List<Property> resultList = entityManager
+                        .createQuery("SELECT p FROM Property p WHERE lower(p.location) LIKE :query", Property.class)
+                        .setParameter("query", "%" + query.toLowerCase() + "%")
+                        .getResultList();
+                if (resultList.isEmpty()) {
+                    throw new NotFoundException("No properties found for query: " + query);
+                }
+                logger.info("Found " + resultList.size() + " properties for query: " + query);
+                return resultList;
+            } else {
+                throw new ForbiddenException("Invalid token");
             }
-            logger.info("Found " + resultList.size() + " properties for query: " + query);
-            return resultList;
+
+
         } catch (Exception e) {
             logger.error("Error searching for properties for query: " + query);
             throw e;

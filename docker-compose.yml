@@ -1,19 +1,46 @@
 version: "3.9"
 services:
-  db:
-    build: ./backend/db
+#  db:
+#    build: ./backend/db
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - ita
+#    environment:
+#        POSTGRES_USER: postgres
+#    healthcheck:
+#      test: ["CMD", "pg_isready", "-U", "postgres"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+
+  users-db:
+    build: ./backend/usersdb
     ports:
       - "5432:5432"
     networks:
       - ita
     environment:
-        POSTGRES_USER: postgres
+      POSTGRES_USER: postgres
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
       interval: 10s
       timeout: 5s
       retries: 10
 
+  properties-db:
+    build: ./backend/propertiesdb
+    ports:
+      - "5433:5433"
+    networks:
+      - ita
+    environment:
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   users:
     build: ./backend/users
@@ -22,7 +49,8 @@ services:
     networks:
       - ita
     depends_on:
-      - db
+      users-db:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/api/users/test" ]
       interval: 10s
@@ -36,17 +64,20 @@ services:
     networks:
       - ita
     depends_on:
-      - db
+      properties-db:
+        condition: service_healthy
 
-#  search:
-#    image: searchms:latest
-#    ports:
-#      - "8082:8082"
-#    networks:
-#      - ita
-#    depends_on:
-#      db:
-#        condition: service_healthy
+  search:
+    image: searchms:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - ita
+    depends_on:
+      db:
+        condition: service_healthy
+      properties-db:
+        condition: service_healthy
 
 
   gateway:
@@ -59,7 +90,9 @@ services:
       - db
       - users
       - properties
-#      - search
+      - search
+      - users-db
+      - properties-db
 
 networks:
   ita:
