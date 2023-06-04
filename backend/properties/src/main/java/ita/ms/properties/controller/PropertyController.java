@@ -27,11 +27,7 @@ public class PropertyController {
     private static final Logger logger = LogManager.getLogger(PropertyController.class);
     private final PropertyService propertyService;
 
-    private final JwtUtil jwt;
-
-    public PropertyController(PropertyService propertyService, JwtUtil jwt) {this.propertyService = propertyService;
-        this.jwt = jwt;
-    }
+    public PropertyController(PropertyService propertyService) {this.propertyService = propertyService; }
 
     @PostMapping("/")
     @ResponseBody
@@ -54,7 +50,7 @@ public class PropertyController {
     }
 
     @GetMapping("/test")
-    public String test(@RequestBody String authorizationHeader) {
+    public String test() {
         if (jwt.validateToken(authorizationHeader)) {
             return "test";
         } else {
