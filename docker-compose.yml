@@ -67,17 +67,15 @@ services:
       properties-db:
         condition: service_healthy
 
-#  search:
-#    image: searchms:latest
-#    ports:
-#      - "8082:8082"
-#    networks:
-#      - ita
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#      properties-db:
-#        condition: service_healthy
+  search:
+    image: searchms:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - ita
+    depends_on:
+      properties-db:
+        condition: service_healthy
 
 
 #  gateway:

@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class JwtUtilService {
-    private static String secret = "nikovaskrivnost";
+    private static String secret = "nikovaskrivnostnikovaskrivnostnikovaskrivnost";
 
     public static boolean validateToken(String token) {
         try {

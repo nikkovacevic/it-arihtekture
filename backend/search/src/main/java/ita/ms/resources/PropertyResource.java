@@ -37,8 +37,6 @@ import java.util.List;
 @Tag(name = "SearchProperties")
 public class PropertyResource {
 
-    private static final Logger logger = LogManager.getLogger(PropertyResource.class);
-
     @Inject
     EntityManager entityManager;
 
@@ -59,7 +57,6 @@ public class PropertyResource {
                 if (resultList.isEmpty()) {
                     throw new NotFoundException("No properties found for query: " + query);
                 }
-                logger.info("Found " + resultList.size() + " properties for query: " + query);
                 return resultList;
             } else {
                 throw new ForbiddenException("Invalid token");
@@ -67,7 +64,6 @@ public class PropertyResource {
 
 
         } catch (Exception e) {
-            logger.error("Error searching for properties for query: " + query);
             throw e;
         }
 
@@ -79,12 +75,10 @@ public class PropertyResource {
     @Transactional
     public List<Property> getAll() {
         try {
-            logger.info("Getting all properties...");
             return entityManager
                     .createQuery("SELECT p FROM Property p", Property.class)
                     .getResultList();
         } catch (Exception e) {
-            logger.error("Error getting all properties...");
             throw e;
         }
     }
