@@ -4,7 +4,7 @@ import axios from 'axios';
 import ApartmentCard from './components/ApartmentCard.jsx';
 import { Box, Grid, TablePagination } from '@mui/material';
 
-const API_URL = 'http://localhost:8081/api/properties'
+const API_URL = 'http://localhost:8081/api/properties/'
 function App() {
     const [apartments, setApartments] = useState([]);
 
@@ -46,7 +46,8 @@ function App() {
     };
 
   return (
-      <Box>
+      <Box
+      >
           <Grid
               container
               spacing={4}

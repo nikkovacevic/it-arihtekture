@@ -18,9 +18,9 @@ function App() {
             password: password
         }
 
-        const response = await axios.post('http://localhost:8085/api/users/authenticate', loginDto)
+        const response = await axios.post('http://localhost:8080/api/users/authenticate', loginDto)
 
-        console.log(response)
+        localStorage.setItem('token', response.data)
 
 
         if (!response.data) {
@@ -35,6 +35,7 @@ function App() {
 
     const handleLogout = () => {
        setIsLoggedIn(false)
+        localStorage.removeItem('token')
     }
 
   return (
@@ -45,7 +46,7 @@ function App() {
             </div>
 
             {
-                isLoggedIn ? (
+                localStorage.getItem('token') !== null ? (
                     <div className="navbar-right" onClick={handleLogout}>
                         <p className="navbar-odjava">
                             Logout
