@@ -78,24 +78,20 @@ services:
         condition: service_healthy
 
 
-#  gateway:
-#    build: ./backend/gateway
-#    ports:
-#      - "5000:5000"
-#    networks:
-#      - ita
-#    depends_on:
-#      - db
-#      - users
-#      - properties
-#      - search
-#      - users-db
-#      - properties-db
+  gateway:
+    build: ./backend/gateway
+    ports:
+      - "5000:5000"
+    networks:
+      - ita
+    depends_on:
+      - users
+      - properties
+      - search
+      - users-db
+      - properties-db
 
 networks:
   ita:
     name: ita
     driver: bridge
-
-# gateway ne posreduje response body-a
-# search se hoce povezat na db preden se db sploh vzpostavi
